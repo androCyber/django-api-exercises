@@ -1,1 +1,2 @@
-# django-api-exercises
+#Django API Exercises
+Tutorial Exercises 

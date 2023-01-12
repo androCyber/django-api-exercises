@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "new",
+            "database": "${workspaceFolder:LittleLemon}/db.sqlite3"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

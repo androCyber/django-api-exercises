@@ -9,12 +9,10 @@ class CategorySerializer(serializers.ModelSerializer):
         model=Category
         fields = ['id','slug','title']
 
-class MenuItemSerializer(serializers.ModelSerializer):
+class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
     stock=serializers.IntegerField(source='inventory')
     price_after_tax = serializers.SerializerMethodField(method_name = 'calculate_tax')
-    category=serializers.HyperlinkedRelatedField(
-        queryset = Category.objects.all(),
-        view_name='category-detail')
+    
     
     class Meta:
         model=MenuItem

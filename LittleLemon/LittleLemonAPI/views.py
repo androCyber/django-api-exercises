@@ -17,6 +17,7 @@ def menu_items(request):
         category_name=request.query_params.get('category')
         to_price=request.query_params.get('to_price')
         search=request.query_params.get('search')
+        ordering=request.query__params.get('ordering')
         
         if category_name:
             items=items.filter(category__title=category_name) #double underscore category and title
@@ -26,6 +27,9 @@ def menu_items(request):
         
         if search:
             items=items.filter(title__contains=search) #icontaints and istartswith are case insentivite
+        
+        if ordering:
+            items=items.order_by(ordering) #default ascending order. Descanding -price or -inventory in query string
         
         
         serialized_item=MenuItemSerializer(items, many=True, context={'request': request})

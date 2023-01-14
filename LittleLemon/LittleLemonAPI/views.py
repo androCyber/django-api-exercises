@@ -10,10 +10,24 @@ from rest_framework import status
 
 # Create your views here.
 
-@api_view('GET','POST')
+@api_view(['GET', 'POST'])
 def menu_items(request):
     if request.method == 'GET':
         items=MenuItem.objects.select_related('category').all()
+        category_name=request.query_params.get('category')
+        to_price=request.query_params.get('to_price')
+        search=request.query_params.get('search')
+        
+        if category_name:
+            items=items.filter(category__title=category_name) #double underscore category and title
+        
+        if to_price:
+            items=items.filter(price=to_price)    #price__lte means less than or equal
+        
+        if search:
+            items=items.filter(title__contains=search) #icontaints and istartswith are case insentivite
+        
+        
         serialized_item=MenuItemSerializer(items, many=True, context={'request': request})
         return Response(serialized_item.data)
     

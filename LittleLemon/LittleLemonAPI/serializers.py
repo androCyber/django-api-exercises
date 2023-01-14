@@ -17,7 +17,12 @@ class MenuItemSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model=MenuItem
-        fields = ['id','title','price','stock','price_after_tax','category'],'category_id'
+        fields = ['id','title','price','stock','price_after_tax','category','category_id']
+        extra_kwargs = {
+            'price': {'min_value': 2},
+            'inventory':{'min_value':0}
+        }
+
       
         
     def calculate_tax(self, product:MenuItem):

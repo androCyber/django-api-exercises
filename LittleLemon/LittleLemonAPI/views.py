@@ -29,8 +29,8 @@ def menu_items(request):
             items=items.filter(title__contains=search) #icontaints and istartswith are case insentivite
         
         if ordering:
-            items=items.order_by(ordering) #default ascending order. Descanding -price or -inventory in query string
-        
+            ordering_fields=ordering.split(",")
+            items=items.order_by(*ordering_fields)
         
         serialized_item=MenuItemSerializer(items, many=True, context={'request': request})
         return Response(serialized_item.data)

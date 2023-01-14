@@ -7,6 +7,7 @@ from .models import Category
 from .serializers import CategorySerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from django.core.paginator import Paginator, EmptyPage
 
 # Create your views here.
 
@@ -18,6 +19,8 @@ def menu_items(request):
         to_price=request.query_params.get('to_price')
         search=request.query_params.get('search')
         ordering=request.query__params.get('ordering')
+        perpage=request.query__params.get('perpage',default=2)
+        page=request.query__params.get('page',default=1)
         
         if category_name:
             items=items.filter(category__title=category_name) #double underscore category and title
@@ -31,6 +34,12 @@ def menu_items(request):
         if ordering:
             ordering_fields=ordering.split(",")
             items=items.order_by(*ordering_fields)
+        
+        paginator=Paginator(items,per_page=perpage)
+        try:
+            items=paginator.page(number=page)
+        except EmptyPage:
+            items=[]
         
         serialized_item=MenuItemSerializer(items, many=True, context={'request': request})
         return Response(serialized_item.data)

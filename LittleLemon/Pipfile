@@ -8,6 +8,8 @@ django = "*"
 djangorestframework = "*"
 djangorestframework-xml = "*"
 bleach = "*"
+djoser = "*"
+djangorestframework-simplejwt = "~=5.2.1"
 
 [dev-packages]
 
